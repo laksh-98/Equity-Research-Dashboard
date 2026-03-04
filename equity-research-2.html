@@ -620,22 +620,7 @@ body::before {
     KEY STAYS IN YOUR BROWSER ONLY · NEVER STORED OR SHARED
   </div>
 </div>
-```
 
----
-
-### Step 3 — Find the API Fetch Code to Update
-
-Now you need to update the part of the code that actually calls the AI — so it uses the key you type in.
-
-1. Press **Ctrl+F** (or **Cmd+F**) again
-2. Search for this exact text:
-```
-   async function go()
-```
-3. That will jump you to the main function. Now search instead for:
-```
-   'anthropic-version': '2023-06-01',
         <div class="quick-picks">
           <button class="qp" onclick="setT('AAPL')">AAPL</button>
           <button class="qp" onclick="setT('NVDA')">NVDA</button>
