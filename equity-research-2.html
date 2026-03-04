@@ -609,6 +609,33 @@ body::before {
         <div class="s-title">Run Analysis</div>
         <div class="s-sub">Enter any NYSE · NASDAQ · ticker</div>
 
+        <div style="margin-bottom:20px;">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#7a7060;margin-bottom:6px;">
+    Anthropic API Key
+  </div>
+  <input id="apiKey" type="password"
+    placeholder="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"
+    style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.14);color:#f5f0e8;font-family:'JetBrains Mono',monospace;font-size:13px;padding:10px 14px;outline:none;box-sizing:border-box;">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:rgba(122,112,96,0.5);margin-top:5px;letter-spacing:0.06em;">
+    KEY STAYS IN YOUR BROWSER ONLY · NEVER STORED OR SHARED
+  </div>
+</div>
+```
+
+---
+
+### Step 3 — Find the API Fetch Code to Update
+
+Now you need to update the part of the code that actually calls the AI — so it uses the key you type in.
+
+1. Press **Ctrl+F** (or **Cmd+F**) again
+2. Search for this exact text:
+```
+   async function go()
+```
+3. That will jump you to the main function. Now search instead for:
+```
+   'anthropic-version': '2023-06-01',
         <div class="quick-picks">
           <button class="qp" onclick="setT('AAPL')">AAPL</button>
           <button class="qp" onclick="setT('NVDA')">NVDA</button>
@@ -944,6 +971,13 @@ async function go() {
   err.classList.remove('on');
   document.getElementById('goBtn').disabled = true;
   document.getElementById('loadTicker').textContent = ticker;
+  const apiKey = document.getElementById('apiKey').value.trim();
+  if (!apiKey) {
+    document.getElementById('errBox').textContent = '⚠ Please enter your Anthropic API key first.';
+    document.getElementById('errBox').classList.add('on');
+    document.getElementById('goBtn').disabled = false;
+    return;
+  }
   showView('loading');
   startStages();
 
@@ -952,6 +986,7 @@ async function go() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'x-api-key': document.getElementById('apiKey').value.trim(),
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
